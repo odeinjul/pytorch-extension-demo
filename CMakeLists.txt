@@ -30,10 +30,11 @@ find_package(Torch REQUIRED)
 list(APPEND TEST_EXTERNAL_LIB ${TORCH_LIBRARIES})
 
 
-
 file(GLOB TEST_SRC
   src/*.cc
   src/*.cu
+  src/shared_cachemem/*.cpp
+  src/shared_cachemem/*.h
 )
 
 add_library(test SHARED ${TEST_SRC})
@@ -41,3 +42,8 @@ target_link_libraries(test ${TEST_EXTERNAL_LIB})
 set_target_properties(test PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 set_target_properties(test PROPERTIES CUDA_STANDARD 14)
 set_target_properties(test PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
+# test part
+
+add_executable(test_cpp src/shared_cachemem/test.cpp)
+target_link_libraries(test_cpp test)
